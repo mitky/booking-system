@@ -1,24 +1,59 @@
-import logo from './logo.svg';
+
+//import { Button } from 'grommet';
+import { TextField } from "@mui/material";
 import './App.css';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
+
+
+
+
 
 function App() {
+
+ 
+
+ 
+  const [password, setPassword] = useState("");
+  const [visible] = useState(false);
+
+
+  let navigate = useNavigate();
+  function logIn() {
+    let path = `/b`; 
+    navigate(path);
+    alert("You logged in!");
+  }
+
+  function createAcc() {
+    let path = `/a`; 
+    navigate(path);
+    
+  }
+
   return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
         <p>
-          Edit <code>src/App.js</code> and save to reload.
+          Booking System 
         </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
       </header>
+
+      <TextField className="App-username" label="username" id="username" placeholder="username"   username/>
+      <TextField className="App-password" label="password" id="password" placeholder="password" 
+      value={password} onChange={e => setPassword(e.target.value)} type={visible ? "text" : "password"} password/>
+      
+      <button className="App-logginButton" onClick={logIn}>Log In</button>
+      <button className="App-createAccButton" onClick={createAcc}>Register</button>
+      
+      
+    
+
     </div>
+
+    
+
   );
 }
 
