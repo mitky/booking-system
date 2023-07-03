@@ -2,6 +2,7 @@ import React from "react";
 import { useMutation, gql } from '@apollo/client';
 import { useNavigate } from "react-router-dom";
 import client from './Client';
+import '../App.css';
 
 
 
@@ -50,7 +51,7 @@ export default function Register(){
 
   const handleSubmit = (event) => {
     event.preventDefault();
-
+    
     const username = event.target.elements.username.value;
     const password = event.target.elements.password.value;
     
@@ -76,17 +77,21 @@ export default function Register(){
     
 
     return(
+      
+      
       <form onSubmit={handleSubmit}>
       <div>
-        <label htmlFor="username">Username:</label>
-        <input type="text" id="username" name="username" />
+        <header className="register-header">Register</header>
+        <input className="username-field" placeholder="username" type="text" id="username" name="username" />
+      </div>
+      <div >
+        <input className="password-field" placeholder="password" type="password" id="password" name="password" />
       </div>
       <div>
-        <label htmlFor="password" >Password:</label>
-        <input type="password" id="password" name="password" />
+        <button className="Register-createAccButton" type="submit">Sign up</button>
+        <button  className="Register-backButton" onClick={goBack}>Back</button>
       </div>
-      <button type="submit">Add User</button>
-      <button  onClick={goBack}>Back</button>
+      
     </form>
   
   );
