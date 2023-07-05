@@ -6,7 +6,6 @@ import '../App.css';
 
 
 
-
 const ADD_USER = gql`
 mutation InsertAppointmentProject($username: String, $password: String) {
   insert_appointment_project(objects: {username: $username, password: $password}) {
@@ -72,7 +71,6 @@ export default function Register(){
       
     }
 
-    
   };
     
 

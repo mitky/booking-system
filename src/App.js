@@ -8,26 +8,26 @@ import {  gql } from '@apollo/client';
 import client from './components/Client';
 
 
-
-
-
+export var usernameinfo = "";
+const getParameter = (inputParameter) => {
+  usernameinfo = inputParameter;
+  
+};
 
 function App() {
 
  
-
  
   const [password, setPassword] = useState("");
   const [visible] = useState(false);
 
   
-
-
   let navigate = useNavigate();
   function logIn() {
     const login_username = document.getElementById("username").value;
     const login_password = document.getElementById("password").value;
-
+    getParameter(login_username);
+    
 
 
     if(login_username === '' && login_password === ''){
@@ -57,9 +57,6 @@ function App() {
       });
     }
     
-    
-
-
     
   }
 
@@ -121,3 +118,4 @@ const checkUser = async (username, password) => {
 }
 
 export default App;
+
