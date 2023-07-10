@@ -28,7 +28,7 @@
     }
 
     .App-createAccButton {
-      padding: 10px 80px;
+      padding: 10px 79px;
       display: flex;
       margin-left: 675px ;
       margin-top: 10px;
@@ -36,18 +36,16 @@
     }
 
     .Register-createAccButton {
-      padding: 10px 58px;
       display: flex;
+      position: relative;
+      padding: 10px 81px;
       margin-left: 675px ;
-      margin-top: 300px;
-      width: 174px;
-      
+      margin-top: 110px;
     }
 
     .Register-backButton {
+      padding: 10px 89px;
       display: flex;
-      position: relative;
-      padding: 10px 71px;
       margin-left: 675px ;
       margin-top: 10px;
     }
@@ -56,29 +54,7 @@
       position: relative;
     }
 
-    .username-field {
-      position: absolute;
-      top: 210px; 
-      left: 675px; 
-      width: 166px; 
-      height: 30px; 
-    }
-
-    .password-field {
-      position: absolute;
-      top: 255px; 
-      left: 675px; 
-      width: 166px; 
-      height: 30px; 
-    }
-
-    .register-header {
-      position: absolute;
-      top: 100px; 
-      left: 675px; 
-      font-size: 46px;
-      font-family: Arial, sans-serif;
-    }
+   
 
     
 

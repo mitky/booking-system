@@ -1,8 +1,11 @@
 import React from "react";
+import { TextField } from "@mui/material";
+import { useState } from "react";
 import { useMutation, gql } from '@apollo/client';
 import { useNavigate } from "react-router-dom";
 import client from './Client';
 import '../App.css';
+
 
 
 
@@ -19,6 +22,9 @@ mutation InsertAppointmentProject($username: String, $password: String) {
 `;
 
 export default function Register(){
+
+  const [password, setPassword] = useState("");
+  const [visible] = useState(false);
 
   const [addUserMutation, { loading, error }] = useMutation(ADD_USER, { client });
 
@@ -48,11 +54,12 @@ export default function Register(){
     
   }
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
+  
+
+  function register(){
     
-    const username = event.target.elements.username.value;
-    const password = event.target.elements.password.value;
+    const username = document.getElementById("username").value;
+    const password = document.getElementById("password").value;
     
 
     if(username === '' && password === ''){
@@ -67,7 +74,8 @@ export default function Register(){
     else{
       addUserToDatabase(username, password);
       document.getElementById("username").value = "";
-      document.getElementById("password").value = "";
+      
+      setPassword('');
       
     }
 
@@ -77,20 +85,18 @@ export default function Register(){
     return(
       
       
-      <form onSubmit={handleSubmit}>
-      <div>
-        <header className="register-header">Register</header>
-        <input className="username-field" placeholder="username" type="text" id="username" name="username" />
-      </div>
+      
       <div >
-        <input className="password-field" placeholder="password" type="password" id="password" name="password" />
-      </div>
-      <div>
-        <button className="Register-createAccButton" type="submit">Sign up</button>
-        <button  className="Register-backButton" onClick={goBack}>Back</button>
+        <header className="App-header">Register</header>
+        <TextField className="App-username" label="username" id="username" placeholder="username"   username/>
+        <TextField className="App-password" label="password" id="password" placeholder="password" 
+        value={password} onChange={e => setPassword(e.target.value)} type={visible ? "text" : "password"} password/>
+      
+        <button className="Register-createAccButton" onClick={register}>Sign up</button>
+        <button className="Register-backButton" onClick={goBack}>Back</button>
       </div>
       
-    </form>
+    
   
   );
 
