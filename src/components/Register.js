@@ -5,6 +5,7 @@ import { useMutation, gql } from '@apollo/client';
 import { useNavigate } from "react-router-dom";
 import client from './Client';
 import '../App.css';
+import Button from '@mui/material/Button';
 
 
 
@@ -92,8 +93,8 @@ export default function Register(){
         <TextField className="App-password" label="password" id="password" placeholder="password" 
         value={password} onChange={e => setPassword(e.target.value)} type={visible ? "text" : "password"} password/>
       
-        <button className="Register-createAccButton" onClick={register}>Sign up</button>
-        <button className="Register-backButton" onClick={goBack}>Back</button>
+        <Button className="Register-createAccButton" variant="contained" onClick={register}>Sign up</Button>
+        <Button className="Register-backButton" variant="contained" onClick={goBack}>Back</Button>
       </div>
       
     

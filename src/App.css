@@ -20,38 +20,36 @@
     left: 465px;
     }
     .App-logginButton {
-      display: flex;
-      position: relative;
-      padding: 10px 85px;
-      margin-left: 675px ;
-      margin-top: 110px;
+      top: 170px;
+      left: 255px;
     }
 
     .App-createAccButton {
-      padding: 10px 79px;
-      display: flex;
-      margin-left: 675px ;
-      margin-top: 10px;
+      top: 170px;
+      left: 289px;
       
     }
 
     .Register-createAccButton {
-      display: flex;
-      position: relative;
-      padding: 10px 81px;
-      margin-left: 675px ;
-      margin-top: 110px;
+      top: 170px;
+      left: 255px;
     }
 
     .Register-backButton {
-      padding: 10px 89px;
-      display: flex;
-      margin-left: 675px ;
-      margin-top: 10px;
+      top: 170px;
+      left: 306px;
     }
 
     .container {
       position: relative;
+    }
+
+    .custom-calendar {
+      position: 'relative';
+      width: 300px;
+      height: 320px;
+      left: 500px;
+      top: 50px;
     }
 
    

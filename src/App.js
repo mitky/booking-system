@@ -6,6 +6,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {  gql } from '@apollo/client';
 import client from './components/Client';
+import Button from '@mui/material/Button';
 
 
 export var usernameinfo = "";
@@ -93,7 +94,7 @@ const checkUser = async (username, password) => {
   }
 
   return (
-    <div className="App">
+    <div >
       <header className="App-header">
         <p>
           Booking System 
@@ -104,8 +105,8 @@ const checkUser = async (username, password) => {
       <TextField className="App-password" label="password" id="password" placeholder="password" 
       value={password} onChange={e => setPassword(e.target.value)} type={visible ? "text" : "password"} password/>
       
-      <button className="App-logginButton" onClick={logIn}>Log In</button>
-      <button className="App-createAccButton" onClick={createAcc}>Register</button>
+      <Button className="App-logginButton" variant="contained"  onClick={logIn}>Log In</Button>
+      <Button className="App-createAccButton" variant="contained"onClick={createAcc}>Register</Button>
       
       
     
