@@ -5,6 +5,8 @@ import { usernameinfo} from '../App';
 import {  gql } from '@apollo/client';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
+import Button from '@mui/material/Button';
+import { useNavigate } from "react-router-dom";
 
 
     
@@ -44,10 +46,18 @@ export default function Clanedar(){
 
     }
 
+        let navigate = useNavigate();
+
+        function logOut() {
+        let path = `/`; 
+        navigate(path);
+      
+        }
+
    
         const handleDateChange = (date) => {
           console.log(date);
-          // Handle selected date change here
+          alert(`Selected date: ${date}`);
         };
 
         function onDayEvent(){
@@ -59,6 +69,7 @@ export default function Clanedar(){
             <h1>Calendar</h1>
             <Calendar className="custom-calendar" onChange={handleDateChange} onClickDay={onDayEvent} />
             <button onClick={getInfo}>Back</button>
+            <Button className="logOut-Button" variant="contained" onClick={logOut}>Sign Out</Button>
         </div>
     )
 }

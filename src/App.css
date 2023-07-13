@@ -40,6 +40,11 @@
       left: 306px;
     }
 
+    .logOut-Button {
+      top: -430px;
+      left: 1206px;
+    }
+
     .container {
       position: relative;
     }
