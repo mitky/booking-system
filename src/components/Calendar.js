@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import '../App.css';
 import client from './Client';
 import { usernameinfo} from '../App';
@@ -7,6 +7,7 @@ import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import Button from '@mui/material/Button';
 import { useNavigate } from "react-router-dom";
+import { List, ListItem, ListItemText, Typography } from '@mui/material';
 
 
     
@@ -54,22 +55,51 @@ export default function Clanedar(){
       
         }
 
-   
+
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            const day = date.getDate().toString().padStart(2, '0');
+            const month = (date.getMonth() + 1).toString().padStart(2, '0');
+            const year = date.getFullYear();
+            return `${day}/${month}/${year}`;
+          }
+       
+        //get the selected date and format it to be readable
+        const [selectedDate, setSelectedDate] = useState(null);
+        const formattedDate = selectedDate ? formatDate(selectedDate) : 'No Date Selected';
+
+        //this appointments will come from the database
+        const appointments = [
+            { title: 'Appointment 1', time: '10:00 AM' },
+            { title: 'Appointment 2', time: '2:30 PM' },
+        ];
+
         const handleDateChange = (date) => {
-          console.log(date);
-          alert(`Selected date: ${date}`);
+            const isoString = date.toISOString();
+            setSelectedDate(isoString);
+            alert(`Selected date: ${date.toLocaleDateString()} (Local Time)\nISO String: ${isoString}`);
+        
         };
 
-        function onDayEvent(){
-            //panel when day is clicked
-        }
+    
 
     return(
         <div style={{ position: 'relative', left: '80px', top: '50px' }}>
             <h1>Calendar</h1>
-            <Calendar className="custom-calendar" onChange={handleDateChange} onClickDay={onDayEvent} />
+            <Calendar className="custom-calendar" onChange={handleDateChange}  />
             <button onClick={getInfo}>Back</button>
             <Button className="logOut-Button" variant="contained" onClick={logOut}>Sign Out</Button>
+
+            <div className="appointments-container">
+            <Typography variant="h5">Appointments for {formattedDate}</Typography>
+            <List>
+                {appointments.map((appointment, index) => (
+                <ListItem key={index}>
+                    <ListItemText primary={appointment.title} secondary={appointment.time} />
+                 </ListItem>
+                ))}
+            </List>
+            </div>
         </div>
     )
 }
