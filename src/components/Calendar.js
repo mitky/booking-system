@@ -8,6 +8,7 @@ import 'react-calendar/dist/Calendar.css';
 import Button from '@mui/material/Button';
 import { useNavigate } from "react-router-dom";
 import { List, ListItem, ListItemText, Typography } from '@mui/material';
+//import  Appointment  from './Appointment';
 
 
     
@@ -68,16 +69,27 @@ export default function Clanedar(){
         const [selectedDate, setSelectedDate] = useState(null);
         const formattedDate = selectedDate ? formatDate(selectedDate) : 'No Date Selected';
 
-        //this appointments will come from the database
-        const appointments = [
-            { title: 'Appointment 1', time: '10:00 AM' },
-            { title: 'Appointment 2', time: '2:30 PM' },
-        ];
+        class Appointment {
+            constructor(date, time, location) {
+              this.date = date;
+              this.time = time;
+              this.location = location;
+            }
+          }
+
+       
+        const appointment = new Appointment('2023-07-19', '10:00 AM', '123 Main St');
+        const appointment1 = new Appointment('2023-10-23', '15:00 AM', '15 Main Rd');
+        
+        const appointments = [] ;
+        appointments.push(appointment1);
+        appointments.push(appointment);
 
         const handleDateChange = (date) => {
             const isoString = date.toISOString();
             setSelectedDate(isoString);
             alert(`Selected date: ${date.toLocaleDateString()} (Local Time)\nISO String: ${isoString}`);
+            
         
         };
 
@@ -95,7 +107,7 @@ export default function Clanedar(){
             <List>
                 {appointments.map((appointment, index) => (
                 <ListItem key={index}>
-                    <ListItemText primary={appointment.title} secondary={appointment.time} />
+                    <ListItemText  secondary={`Time: ${appointment.time}, Location: ${appointment.location}`} />
                  </ListItem>
                 ))}
             </List>
