@@ -85,12 +85,19 @@ export default function Clanedar(){
         appointments.push(appointment1);
         appointments.push(appointment);
 
+        const [selectedAppointment, setSelectedAppointment] = useState(null);
+
+        const handleAppointmentClick = (appointment) => {
+          setSelectedAppointment(appointment);
+          const { time, location } = appointment;
+          alert(`Selected Appointment\nTime: ${time}\nLocation: ${location}\nDate: ${formattedDate}`);
+        };
+
+        
         const handleDateChange = (date) => {
             const isoString = date.toISOString();
             setSelectedDate(isoString);
             alert(`Selected date: ${date.toLocaleDateString()} (Local Time)\nISO String: ${isoString}`);
-            
-        
         };
 
     
@@ -106,7 +113,11 @@ export default function Clanedar(){
             <Typography variant="h5">Appointments for {formattedDate}</Typography>
             <List>
                 {appointments.map((appointment, index) => (
-                <ListItem key={index}>
+                <ListItem key={index}
+                button
+                selected={selectedAppointment === appointment}
+                onClick={() => handleAppointmentClick(appointment)}
+                >
                     <ListItemText  secondary={`Time: ${appointment.time}, Location: ${appointment.location}`} />
                  </ListItem>
                 ))}
