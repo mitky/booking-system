@@ -86,11 +86,27 @@ export default function Clanedar(){
         appointments.push(appointment);
 
         const [selectedAppointment, setSelectedAppointment] = useState(null);
+        const [allAppointments, setAllAppointments] = useState(appointments);
+
+        const handleDeleteAppointment = () => {
+          if (!selectedAppointment) {
+            return;
+          }
+      
+          // Filter out the selected appointment from the appointments array
+          const updatedAppointments = allAppointments.filter((appointment) => appointment !== selectedAppointment);
+      
+          // Update the state with the new appointments array
+          setSelectedAppointment(null);
+          setAllAppointments(updatedAppointments);
+        };
+
+       
 
         const handleAppointmentClick = (appointment) => {
           setSelectedAppointment(appointment);
           const { time, location } = appointment;
-          alert(`Selected Appointment\nTime: ${time}\nLocation: ${location}\nDate: ${formattedDate}`);
+          //alert(`Selected Appointment\nTime: ${time}\nLocation: ${location}\nDate: ${selectedDate}`);
         };
 
         
@@ -112,17 +128,22 @@ export default function Clanedar(){
             <div className="appointments-container">
             <Typography variant="h5">Appointments for {formattedDate}</Typography>
             <List>
-                {appointments.map((appointment, index) => (
+                {allAppointments.map((appointment, index) => (
                 <ListItem key={index}
                 button
                 selected={selectedAppointment === appointment}
                 onClick={() => handleAppointmentClick(appointment)}
+                className={selectedAppointment === appointment ? 'selected' : ''}
                 >
                     <ListItemText  secondary={`Time: ${appointment.time}, Location: ${appointment.location}`} />
                  </ListItem>
                 ))}
+                <Button variant="contained" color="secondary" onClick={handleDeleteAppointment}>
+                  Delete Appointment
+                </Button>
             </List>
             </div>
+            
         </div>
     )
 }
