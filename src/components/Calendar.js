@@ -92,13 +92,17 @@ export default function Clanedar(){
           if (!selectedAppointment) {
             return;
           }
-      
-          // Filter out the selected appointment from the appointments array
-          const updatedAppointments = allAppointments.filter((appointment) => appointment !== selectedAppointment);
+          
+          const isConfirmed = window.confirm('Are you sure you want to delete this appointment?');
+
+          if (isConfirmed) {
+            // Filter out the selected appointment from the appointments array
+            const updatedAppointments = allAppointments.filter((appointment) => appointment !== selectedAppointment);
       
           // Update the state with the new appointments array
           setSelectedAppointment(null);
           setAllAppointments(updatedAppointments);
+          }
         };
 
        
