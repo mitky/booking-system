@@ -8,6 +8,14 @@ import 'react-calendar/dist/Calendar.css';
 import Button from '@mui/material/Button';
 import { useNavigate } from "react-router-dom";
 import { List, ListItem, ListItemText, Typography } from '@mui/material';
+import { TextField } from "@mui/material";
+import { TimePicker } from '@mui/x-date-pickers/TimePicker';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
+
+
+
+
 //import  Appointment  from './Appointment';
 
 
@@ -87,6 +95,8 @@ export default function Clanedar(){
 
         const [selectedAppointment, setSelectedAppointment] = useState(null);
         const [allAppointments, setAllAppointments] = useState(appointments);
+        const [showAddNew, setShowAddNew] = useState(null);
+        const [selectedTime, setSelectedTime] = useState(null);
 
         const handleDeleteAppointment = () => {
           if (!selectedAppointment) {
@@ -105,7 +115,23 @@ export default function Clanedar(){
           }
         };
 
-       
+        const addNewAppointment = () => {
+          setSelectedTime(null); //reset the timer when open new panel
+          setShowAddNew(true); // Show the "Add New Appointment" panel
+        };
+
+        const addAppointment = () => {
+          const username = usernameinfo;
+          const description = document.getElementById("description").value;
+          alert(`Add Appointment\nUser: ${username}\ndescription: ${description}\nTime: ${selectedTime}\nDate: ${selectedDate}`);
+          setShowAddNew(false);
+        };
+
+        const cancelAddAppointment = () => {
+          setShowAddNew(false); // Show the "Add New Appointment" panel
+        };
+
+        
 
         const handleAppointmentClick = (appointment) => {
           setSelectedAppointment(appointment);
@@ -142,11 +168,39 @@ export default function Clanedar(){
                     <ListItemText  secondary={`Time: ${appointment.time}, Location: ${appointment.location}`} />
                  </ListItem>
                 ))}
-                <Button variant="contained" color="secondary" onClick={handleDeleteAppointment}>
-                  Delete Appointment
-                </Button>
+                <Button variant="contained" color="primary" onClick={addNewAppointment}>Add Appointment</Button>
+                <Button variant="contained" color="secondary" onClick={handleDeleteAppointment}>Delete Appointment</Button>
+                
+                
             </List>
-            </div>
+                   {showAddNew && (
+                    <div className="new-appointment-panel">
+                      
+                      {
+                        <div>
+                        <Typography className="new appointment-header">New Appointment</Typography>
+                        <TextField className="calendar-description" label="description" id="description" placeholder="description"  description/>
+                        
+                        <div>
+                        <LocalizationProvider dateAdapter={AdapterDateFns}>
+                        <TimePicker
+                          label="Select Time"
+                          value={selectedTime}
+                          onChange={(newValue) => setSelectedTime(newValue)}
+                          />
+                       </LocalizationProvider>
+                        </div>
+
+                        <div>
+                        <Button variant="contained" color="primary" onClick={addAppointment}>Add </Button>
+                        <Button variant="contained" color="secondary" onClick={cancelAddAppointment}>Cancel </Button>
+                        </div>
+                        </div>
+                        
+                      }
+                    </div>
+                  )}
+        </div>
             
         </div>
     )
