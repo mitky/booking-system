@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import '../App.css';
 import client from './Client';
 import { usernameinfo} from '../App';
-import {  gql } from '@apollo/client';
+import {  gql, useMutation } from '@apollo/client';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import Button from '@mui/material/Button';
@@ -34,6 +34,47 @@ export default function Clanedar(){
       }
     }
   `;
+
+  
+
+
+  const ADD_Appointment = gql`
+  mutation InsertAppointments($username: String, $description: String, $date: String, $time: String) {
+    insert_appointments(objects: {username: $username, description: $description,  date: $date, time: $time}) {
+      affected_rows
+      returning {
+        username
+        description
+        id
+        date
+        time
+      }
+    }
+  }
+  `;    
+
+  const [addAppointmentMutation, { loading, error }] = useMutation(ADD_Appointment, { client });
+
+  const addAppointmentToDatabase =  (id, username, description, date, time) => {
+    try {
+      const result =  addAppointmentMutation({
+        variables: {
+          id: id,
+          username: username,
+          description: description,
+          date: date,
+          time: time,
+        },
+      });
+      console.log('Appointment added');
+      alert("Appointment added!");
+      return result;
+    } catch (error) {
+      console.error('Error adding appointment:', error);
+      alert("Error adding appointment");
+      
+    }
+  };
 
 
     
@@ -120,10 +161,24 @@ export default function Clanedar(){
           setShowAddNew(true); // Show the "Add New Appointment" panel
         };
 
-        const addAppointment = () => {
+        
+       
+
+        const addAppointment =  () => {
+
+         
+
           const username = usernameinfo;
           const description = document.getElementById("description").value;
-          alert(`Add Appointment\nUser: ${username}\ndescription: ${description}\nTime: ${selectedTime}\nDate: ${selectedDate}`);
+          const date = selectedDate;
+          const time = selectedTime;
+          const timeObject = new Date(time);
+          const isoStringTime = timeObject.toISOString();
+          const id=0;
+         
+
+          addAppointmentToDatabase(id, username, description, date, isoStringTime);
+          alert(`Add Appointment\nUser: ${username}\ndescription: ${description}\nTime: ${isoStringTime}\nDate: ${date}`);
           setShowAddNew(false);
         };
 
