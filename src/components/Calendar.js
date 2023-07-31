@@ -157,8 +157,14 @@ export default function Clanedar(){
         };
 
         const addNewAppointment = () => {
-          setSelectedTime(null); //reset the timer when open new panel
-          setShowAddNew(true); // Show the "Add New Appointment" panel
+
+          if(selectedDate === null){
+            alert("Please select a date")
+          }
+          else{
+            setSelectedTime(null); //reset the timer when open new panel
+            setShowAddNew(true); // Show the "Add New Appointment" panel      
+          }
         };
 
         
