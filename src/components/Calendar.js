@@ -119,20 +119,18 @@ export default function Clanedar(){
         const formattedDate = selectedDate ? formatDate(selectedDate) : 'No Date Selected';
 
         class Appointment {
-            constructor(date, time, location) {
-              this.date = date;
+            constructor(time, description) {
+              
               this.time = time;
-              this.location = location;
+              this.description = description;
             }
           }
 
        
-        const appointment = new Appointment('2023-07-19', '10:00 AM', '123 Main St');
-        const appointment1 = new Appointment('2023-10-23', '15:00 AM', '15 Main Rd');
         
         const appointments = [] ;
-        appointments.push(appointment1);
-        appointments.push(appointment);
+       
+        
 
         const [selectedAppointment, setSelectedAppointment] = useState(null);
         const [allAppointments, setAllAppointments] = useState(appointments);
@@ -153,6 +151,8 @@ export default function Clanedar(){
           // Update the state with the new appointments array
           setSelectedAppointment(null);
           setAllAppointments(updatedAppointments);
+          //needs to be also deleted from DB!!!!
+
           }
         };
 
@@ -184,6 +184,9 @@ export default function Clanedar(){
          
 
           addAppointmentToDatabase(id, username, description, date, isoStringTime);
+          const appointment = new Appointment(isoStringTime, description);
+          appointments.push(appointment);
+          setAllAppointments(appointments);
           alert(`Add Appointment\nUser: ${username}\ndescription: ${description}\nTime: ${isoStringTime}\nDate: ${date}`);
           setShowAddNew(false);
         };
@@ -226,7 +229,7 @@ export default function Clanedar(){
                 onClick={() => handleAppointmentClick(appointment)}
                 className={selectedAppointment === appointment ? 'selected' : ''}
                 >
-                    <ListItemText  secondary={`Time: ${appointment.time}, Location: ${appointment.location}`} />
+                    <ListItemText  secondary={`Time: ${appointment.time}, Description: ${appointment.description}`} />
                  </ListItem>
                 ))}
                 <Button variant="contained" color="primary" onClick={addNewAppointment}>Add Appointment</Button>
