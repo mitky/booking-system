@@ -35,6 +35,21 @@ export default function Clanedar(){
     }
   `;
 
+  const DELETE_APPOINTMENT_MUTATION = gql`
+  mutation DeleteAppointment($username: String!, $date: String!, $time: String!, $description: String!) {
+    delete_appointments(
+      where: {
+        username: { _eq: $username }
+        date: { _eq: $date }
+        time: { _eq: $time }
+        description: { _eq: $description }
+      }
+    ) {
+      affected_rows
+    }
+  }
+`;
+
   
 
 
@@ -51,7 +66,33 @@ export default function Clanedar(){
       }
     }
   }
-  `;    
+  `; 
+  
+  
+  const [deleteAppointment] = useMutation(DELETE_APPOINTMENT_MUTATION, { client });
+
+  const DeleteAppointment = (username, date,time,description) => {
+    deleteAppointment({
+      variables: {
+        username: username,
+        date: date,
+        time: time,
+        description: description,
+      },
+    })
+      .then((response) => {
+        const affectedRows = response?.data?.delete_appointments?.affected_rows;
+        if (affectedRows === 1) {
+          console.log('Appointment deleted successfully.');
+        } else {
+          console.log('Failed to delete appointment.');
+        }
+      })
+      .catch((error) => {
+        console.error('Error deleting appointment:', error.message);
+      });
+  };
+ 
 
   const [addAppointmentMutation, { loading, error }] = useMutation(ADD_Appointment, { client });
 
@@ -119,8 +160,8 @@ export default function Clanedar(){
         const formattedDate = selectedDate ? formatDate(selectedDate) : 'No Date Selected';
 
         class Appointment {
-            constructor(time, description) {
-              
+            constructor(date,time, description) {
+              this.date = date;
               this.time = time;
               this.description = description;
             }
@@ -131,11 +172,14 @@ export default function Clanedar(){
         const appointments = [] ;
        
         
-
+        
         const [selectedAppointment, setSelectedAppointment] = useState(null);
         const [allAppointments, setAllAppointments] = useState(appointments);
         const [showAddNew, setShowAddNew] = useState(null);
         const [selectedTime, setSelectedTime] = useState(null);
+        
+        
+       
 
         const handleDeleteAppointment = () => {
           if (!selectedAppointment) {
@@ -147,10 +191,16 @@ export default function Clanedar(){
           if (isConfirmed) {
             // Filter out the selected appointment from the appointments array
             const updatedAppointments = allAppointments.filter((appointment) => appointment !== selectedAppointment);
+            const description = selectedAppointment.description;
+            const date = selectedAppointment.date;
+            const time = selectedAppointment.time;
+            
+            DeleteAppointment(usernameinfo, date, time, description);
       
           // Update the state with the new appointments array
           setSelectedAppointment(null);
           setAllAppointments(updatedAppointments);
+          
           //needs to be also deleted from DB!!!!
 
           }
@@ -184,9 +234,9 @@ export default function Clanedar(){
          
 
           addAppointmentToDatabase(id, username, description, date, isoStringTime);
-          const appointment = new Appointment(isoStringTime, description);
+          const appointment = new Appointment(date,isoStringTime, description);
           appointments.push(appointment);
-          setAllAppointments(appointments);
+          allAppointments.push(appointment);
           alert(`Add Appointment\nUser: ${username}\ndescription: ${description}\nTime: ${isoStringTime}\nDate: ${date}`);
           setShowAddNew(false);
         };
@@ -199,8 +249,9 @@ export default function Clanedar(){
 
         const handleAppointmentClick = (appointment) => {
           setSelectedAppointment(appointment);
-          const { time, location } = appointment;
-          //alert(`Selected Appointment\nTime: ${time}\nLocation: ${location}\nDate: ${selectedDate}`);
+
+          
+          
         };
 
         
