@@ -258,7 +258,9 @@ export default function Clanedar(){
         const handleDateChange = (date) => {
             const isoString = date.toISOString();
             setSelectedDate(isoString);
-            alert(`Selected date: ${date.toLocaleDateString()} (Local Time)\nISO String: ${isoString}`);
+            allAppointments.length=0;
+            setAllAppointments(allAppointments);
+            //alert(`Selected date: ${date.toLocaleDateString()} (Local Time)\nISO String: ${isoString}`);
         };
 
     
