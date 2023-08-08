@@ -28,9 +28,10 @@ export default function Clanedar(){
     
 
     const GET_User_Info = gql`
-    query GetPassword($username: String!) {
-        appointment_project(where: {username: {_eq: $username}}) {
-        password
+    query GetPassword($username: String!, $date: String!) {
+        appointments(where: {username: {_eq: $username} date: {_eq: $date}}) {
+        time
+        description
       }
     }
   `;
@@ -122,14 +123,18 @@ export default function Clanedar(){
     function getInfo() {
 
         const username = usernameinfo;
+        const date = selectedDate;
         client.query({
             query: GET_User_Info,
-            variables: { username },
+            variables: { username, date },
         })
             .then(response => {
-             const password = response.data.appointment_project[0].password;
-             alert(password);
-             console.log('Password:', password);
+             const time = response.data.appointments[0].time;
+             const description = response.data.appointments[0].description;
+             alert(`Info\nTime: ${time}\ndescription: ${description}`);
+            //create new appointment obj and add it to array
+
+             console.log('Password:', time);
   })
             .catch(error => {
             alert("Error");
@@ -200,8 +205,6 @@ export default function Clanedar(){
           // Update the state with the new appointments array
           setSelectedAppointment(null);
           setAllAppointments(updatedAppointments);
-          
-          //needs to be also deleted from DB!!!!
 
           }
         };
@@ -217,12 +220,8 @@ export default function Clanedar(){
           }
         };
 
-        
-       
 
         const addAppointment =  () => {
-
-         
 
           const username = usernameinfo;
           const description = document.getElementById("description").value;
@@ -250,8 +249,6 @@ export default function Clanedar(){
         const handleAppointmentClick = (appointment) => {
           setSelectedAppointment(appointment);
 
-          
-          
         };
 
         
