@@ -121,7 +121,9 @@ export default function Clanedar(){
 
     
     function getInfo() {
-
+        
+        
+        
         const username = usernameinfo;
         const date = selectedDate;
         client.query({
@@ -131,13 +133,16 @@ export default function Clanedar(){
             .then(response => {
              const time = response.data.appointments[0].time;
              const description = response.data.appointments[0].description;
-             alert(`Info\nTime: ${time}\ndescription: ${description}`);
-            //create new appointment obj and add it to array
+             //alert(`info\nUser: ${username}\ndescription: ${description}\nTime: ${time}\nDate: ${date}`);
+             const appointment = new Appointment(date,time, description);
+             appointments.push(appointment);
+             //allAppointments.push(appointment);
+            setAllAppointments(appointments);
 
              console.log('Password:', time);
   })
             .catch(error => {
-            alert("Error");
+            //alert("Error");
             console.error('Error:', error);
   });
 
@@ -257,6 +262,11 @@ export default function Clanedar(){
             setSelectedDate(isoString);
             allAppointments.length=0;
             setAllAppointments(allAppointments);
+            const buttonElement = document.getElementById('backButton');
+            setTimeout(() => {
+              buttonElement.click();
+            }, 100);
+           
             //alert(`Selected date: ${date.toLocaleDateString()} (Local Time)\nISO String: ${isoString}`);
         };
 
@@ -266,7 +276,7 @@ export default function Clanedar(){
         <div style={{ position: 'relative', left: '80px', top: '50px' }}>
             <h1>Calendar</h1>
             <Calendar className="custom-calendar" onChange={handleDateChange}  />
-            <button onClick={getInfo}>Back</button>
+            <button id = "backButton" onClick={getInfo}>Back</button>
             <Button className="logOut-Button" variant="contained" onClick={logOut}>Sign Out</Button>
 
             <div className="appointments-container">
