@@ -133,8 +133,9 @@ export default function Clanedar(){
             .then(response => {
              const time = response.data.appointments[0].time;
              const description = response.data.appointments[0].description;
+             const formattedTime = formatTime(time);
              //alert(`info\nUser: ${username}\ndescription: ${description}\nTime: ${time}\nDate: ${date}`);
-             const appointment = new Appointment(date,time, description);
+             const appointment = new Appointment(date,formattedTime, description);
              appointments.push(appointment);
              //allAppointments.push(appointment);
             setAllAppointments(appointments);
@@ -163,6 +164,16 @@ export default function Clanedar(){
             const month = (date.getMonth() + 1).toString().padStart(2, '0');
             const year = date.getFullYear();
             return `${day}/${month}/${year}`;
+          }
+
+          function formatTime(inputTime) {
+            const date = new Date(inputTime);
+            const hours = date.getUTCHours();
+            const minutes = date.getUTCMinutes();
+          
+            const formattedTime = `${hours < 10 ? '0' : ''}${hours}:${minutes < 10 ? '0' : ''}${minutes}`;
+          
+            return formattedTime;
           }
        
         //get the selected date and format it to be readable
@@ -235,10 +246,11 @@ export default function Clanedar(){
           const timeObject = new Date(time);
           const isoStringTime = timeObject.toISOString();
           const id=0;
+          const formattedTime = formatTime(isoStringTime);
          
 
           addAppointmentToDatabase(id, username, description, date, isoStringTime);
-          const appointment = new Appointment(date,isoStringTime, description);
+          const appointment = new Appointment(date,formattedTime, description);
           appointments.push(appointment);
           allAppointments.push(appointment);
           alert(`Add Appointment\nUser: ${username}\ndescription: ${description}\nTime: ${isoStringTime}\nDate: ${date}`);
@@ -258,12 +270,15 @@ export default function Clanedar(){
 
         
         const handleDateChange = (date) => {
+            appointments.length=0;
+            setAllAppointments(appointments);
             const isoString = date.toISOString();
             setSelectedDate(isoString);
-            allAppointments.length=0;
-            setAllAppointments(allAppointments);
+            
             const buttonElement = document.getElementById('backButton');
+            
             setTimeout(() => {
+              
               buttonElement.click();
             }, 100);
            
@@ -276,7 +291,7 @@ export default function Clanedar(){
         <div style={{ position: 'relative', left: '80px', top: '50px' }}>
             <h1>Calendar</h1>
             <Calendar className="custom-calendar" onChange={handleDateChange}  />
-            <button id = "backButton" onClick={getInfo}>Back</button>
+            <button id = "backButton" style={{ display: "none" }} onClick={getInfo}>Back</button>
             <Button className="logOut-Button" variant="contained" onClick={logOut}>Sign Out</Button>
 
             <div className="appointments-container">
