@@ -131,19 +131,24 @@ export default function Clanedar(){
             variables: { username, date },
         })
             .then(response => {
-             const time = response.data.appointments[0].time;
-             const description = response.data.appointments[0].description;
-             const formattedTime = formatTime(time);
-             //alert(`info\nUser: ${username}\ndescription: ${description}\nTime: ${time}\nDate: ${date}`);
-             const appointment = new Appointment(date,formattedTime, description);
-             appointments.push(appointment);
-             //allAppointments.push(appointment);
-            setAllAppointments(appointments);
+           
+            const apps = response.data.appointments;
 
-             console.log('Password:', time);
+            apps.forEach(appointmentt => {
+              const time = appointmentt.time;
+              const description = appointmentt.description;
+              const formattedTime = formatTime(time);
+             //alert(`info\nUser: ${username}\ndescription: ${description}\nTime: ${time}\nDate: ${date}`);
+              const appointment = new Appointment(date,formattedTime, description);
+              appointments.push(appointment);
+             //allAppointments.push(appointment);
+              setAllAppointments(appointments);
+            });
+
+             
   })
             .catch(error => {
-            //alert("Error");
+            alert("Error");
             console.error('Error:', error);
   });
 
